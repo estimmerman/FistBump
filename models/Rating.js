@@ -5,7 +5,7 @@ var ratingSchema = new mongoose.Schema({
   post: { type: mongoose.Schema.ObjectId, ref: 'Post' },
   ratings: { type: Object, default: { 
     'main': false,
-    'sub-rating': { 'name': '', 'active': true }
+    'subRating': { 'name': '', 'active': false }
   }}
 });
 

@@ -5,6 +5,7 @@ var postSchema = new mongoose.Schema({
   content: { type: String, default: '' },
   category: { type: String, default: '' },
   location: { type: Object, default: { 'latitude' : null, 'longitude' : null } },
+  createdAt: { type: Date, default: null },
   ratings: { type: Object, default: { 
     'main': 0,
     'bro': {'bottoms-up': 0, 'hit-the-club': 0, 'feast': 0, 'kickback': 0 }, 
