@@ -122,6 +122,8 @@ app.post('/account/delete', passportConf.isAuthenticated, userController.postDel
 
 app.post('/post/create', passportConf.isAuthenticated, postController.postCreatePost);
 app.get('/post/get-all/:category', passportConf.isAuthenticated, postController.getAllPosts);
+app.post('/post/rate/main', passportConf.isAuthenticated, postController.postRateMain);
+app.post('/post/rate/sub/:category', passportConf.isAuthenticated, postController.postRateSubCategory);
 
 /**
  * Error Handler.
