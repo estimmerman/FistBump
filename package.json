@@ -1,13 +1,12 @@
 {
-  "name": "hackathon-starter",
-  "version": "3.4.1",
+  "name": "fist-bump",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/estimmerman/FistBump.git"
   },
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha --reporter spec --timeout 5000"
+    "start": "node app.js"
   },
   "dependencies": {
     "async": "^1.5.2",
@@ -67,6 +66,9 @@
     "mocha": "^2.4.5",
     "multiline": "^1.0.2",
     "supertest": "^1.1.0"
+  },
+  "engines": {
+    "node": "4.1.1"
   },
   "license": "MIT"
 }

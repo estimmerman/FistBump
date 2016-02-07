@@ -37,6 +37,7 @@ var postController = require('./controllers/post');
 /**
  * API keys and Passport configuration.
  */
+var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 
 /**
@@ -47,7 +48,7 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI);
+mongoose.connect(secrets.db);
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
