@@ -37,11 +37,53 @@ block content
             .modal-body(style='padding-left: 0px; padding-right: 0px;')
                 input.hidden(id='category', value='bro')
                 .col-sm-12.no-margin-left
-                  label.control-label(for='content', id='add-post-content-label') How's it going dude?
-                  textarea.form-control.m-top-5(id='content', name='content', rows='4', required)
+                  .col-sm-12.no-padding
+                    .col-sm-6.no-padding
+                      label.control-label(for='content', id='add-post-content-label') How's it going dude?
+                    .col-sm-6.no-padding.m-top-10
+                      span.pull-right(id='contentLength') / 200
+                  textarea.form-control.m-top-5(id='content', name='content', rows='4', required, maxlength='200')
             .modal-footer(style='border-top: none')
                 button.pull-right.btn.btn-primary.m-top-15.m-left-15(id='post-submit-button' type='submit') Post
 
+    div.modal.fade(id="connect-to-bro-modal", tabindex='-1', role='dialog', aria-labelledby='connect-to-bro-modal-label')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true' style='font-size: 25px;') &times;
+            h4.modal-title(id='connect-to-bro-modal-label') Send a Message, Bro to Bro
+          form.form-horizontal(action='/post/message', method='POST', id='connect-to-bro-form')
+            .modal-body(style='padding-left: 0px; padding-right: 0px;')
+              input.hidden('id=message-post-id', value='')
+              .col-sm-12
+                .col-sm-12.no-padding
+                  .col-sm-6.no-padding
+                    label.control-label(for='message') Message
+                  .col-sm-6.no-padding.m-top-10
+                    span.pull-right(id='messageLength') / 200
+                .col-sm-12.no-padding
+                  textarea.form-control.m-top-5(id='message', name='message', rows='4', required, maxlength='200')
+            .modal-footer(style='border-top: none')
+                button.pull-right.btn.btn-primary.m-top-15.m-left-15(id='post-submit-button' type='submit') Send
+
+    div.modal.fade(id='messages-modal', tabindex='-1', role='dialog', aria-labelledby='messages-modal-label')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true' style='font-size: 25px;') &times;
+            h4.modal-title(id='messages-modal-label') Messages
+            .modal-body(style='padding-left: 0px; padding-right: 0px;')
+              table.table.table-hover(id='messages-table')
+                thead
+                  tr
+                    th In Response To Your Post...
+                    th Message
+                    th(style='min-width: 150px;') Date
+                tbody(id='messages-table-list')
+
   script(type='text/javascript').
     var user = !{JSON.stringify(user)};
+    var messages = !{JSON.stringify(messages)};
   script(src='/js/main.js')
