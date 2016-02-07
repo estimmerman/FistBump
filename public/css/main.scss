@@ -18,6 +18,7 @@ $dark-blue-grey: #495f6a;
 $metallic-blue: #1565C0;
 $light-metallic-blue: #e8f2fc;
 $dark-metallica-blue: #0f498a;
+$danger: #c91d12;
 
 html {
   position: relative;
@@ -40,6 +41,16 @@ footer {
   p, ul {
     margin-bottom: 0;
   }
+}
+
+thead {
+  th {
+    font-size: 18px;
+  }
+}
+
+.danger {
+  color: $danger;
 }
 
 .btn {
@@ -201,6 +212,10 @@ input, textarea, p, button, a {
   margin-top: 15px;
 }
 
+.m-top-10 {
+  margin-top: 10px;
+}
+
 .m-top-5 {
   margin-top: 5px;
 }
@@ -224,6 +239,8 @@ input, textarea, p, button, a {
 
 .post-content {
   font-size: 16px;
+  max-width: 525px;
+  margin-bottom: 50px;
 }
 
 .post-footer {
@@ -378,3 +395,22 @@ input, textarea, p, button, a {
   -o-user-select: none;
   user-select: none;
 }
+
+.connect-bro-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.badge {
+  margin-left: 5px;
+  margin-top: -5px;
+}
+
+#messages-modal .modal-content{
+  width: 1000px;
+  margin-left: -200px;
+  max-height: 800px;
+  overflow-y: scroll; 
+}
+
