@@ -8790,13 +8790,18 @@ button.close {
     text-transform: uppercase;
     transition: all 0.2s linear; }
 
+a, span, h1, h2, h3, h4, h5, h6, p, label, button, input, div, select, option {
+  font-family: 'Josefin Slab', sans-serif;
+  font-weight: 700; }
+
 html {
   position: relative;
   min-height: 100%; }
 
 body {
   padding-top: 60px;
-  margin-bottom: 75px; }
+  margin-bottom: 75px;
+  overflow-x: hidden; }
 
 footer {
   position: absolute;
@@ -8807,13 +8812,58 @@ footer {
   footer p, footer ul {
     margin-bottom: 0; }
 
+.btn {
+  border-radius: 4px !important; }
+
+.btn-primary {
+  background-color: #1565C0;
+  border-color: #0f498a; }
+
+.btn-success {
+  background-color: #607d8b;
+  border-color: #495f6a; }
+
+.btn-success:active, .btn-success.active, .open > .btn-success.dropdown-toggle {
+  background-color: #495f6a;
+  border-color: #607d8b; }
+
+.btn-success:focus, .btn-success.focus {
+  background-color: #495f6a;
+  border-color: #607d8b; }
+
+.btn-success:active:hover, .btn-success:active:focus, .btn-success:active.focus, .btn-success.active:hover, .btn-success.active:focus, .btn-success.active.focus, .open > .btn-success.dropdown-toggle:hover, .open > .btn-success.dropdown-toggle:focus, .open > .btn-success.dropdown-toggle.focus {
+  background-color: #495f6a;
+  border-color: #607d8b; }
+
+.btn-success:hover {
+  background-color: #495f6a;
+  border-color: #607d8b; }
+
 textarea {
   resize: vertical; }
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: #f8f8f8; }
+
+.navbar a {
+  font-size: 14px !important; }
+
+label {
+  font-size: 17px !important; }
+
+input, textarea, p, button, a {
+  font-size: 15px !important; }
 
 .navbar-nav img {
   width: 30px;
   height: 30px;
   margin: -15px 15px -15px; }
+
+.modal-title {
+  font-size: 22px; }
+
+.modal label {
+  font-size: 17px; }
 
 .alert {
   margin-top: 20px; }
@@ -8825,6 +8875,28 @@ textarea {
   position: fixed;
   bottom: 75px;
   right: 75px; }
+
+#sorting-buttons {
+  position: fixed;
+  bottom: 25px;
+  right: 75px; }
+  #sorting-buttons .fa {
+    margin-right: 0; }
+
+#sort-rating-button {
+  border-radius: 4px 0 0 4px !important; }
+
+#sort-rating-button:focus {
+  outline: none; }
+
+#sort-date-button {
+  border-radius: 0 4px 4px 0 !important; }
+
+#sort-date-button:focus {
+  outline: none; }
+
+#post-submit-button {
+  width: 100px; }
 
 .no-margin-left {
   margin-left: 0px; }
@@ -8877,6 +8949,9 @@ textarea {
   background-clip: padding-box;
   overflow: hidden; }
 
+.post-content {
+  font-size: 16px; }
+
 .post-footer {
   position: absolute;
   bottom: 0;
@@ -8885,7 +8960,11 @@ textarea {
 .post-footer-label {
   padding-left: 10px;
   padding-bottom: 0;
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  font-size: 16px; }
+
+.post-timestamp {
+  margin-right: 5px; }
 
 .post-footer-options-list {
   border-top: 2px;
@@ -8915,6 +8994,8 @@ textarea {
   .bro-post-container .bro-post .post-footer-option-border:hover {
     cursor: pointer;
     background-color: #e8f2fc; }
+  .bro-post-container .bro-post .post-footer-option-border-active {
+    background-color: #e8f2fc; }
 
 .bro-post-container .main-rating:hover {
   color: #1565C0; }
@@ -8927,6 +9008,8 @@ textarea {
     border-color: #607d8b; }
   .bruh-post-container .bruh-post .post-footer-option-border:hover {
     cursor: pointer;
+    background-color: #f0f3f5; }
+  .bruh-post-container .bruh-post .post-footer-option-border-active {
     background-color: #f0f3f5; }
 
 .bruh-post-container .main-rating:hover {
@@ -8946,5 +9029,40 @@ textarea {
 
 .main-rating {
   cursor: pointer; }
+
+.title-section {
+  text-align: center;
+  height: 200px;
+  background-color: #616161;
+  margin-bottom: 25px;
+  margin-top: -10px; }
+
+.title {
+  margin-top: 75px;
+  font-size: 70px;
+  color: white; }
+
+.header-icon {
+  margin-left: 25px;
+  margin-top: -15px; }
+
+#post-spinner {
+  color: #1565C0; }
+
+#flash {
+  position: absolute;
+  top: 30px;
+  width: 100%; }
+
+.unselectable {
+  -webkit-user-select: none;
+  /* Chrome/Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+ */
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none; }
 
 /*# sourceMappingURL=main.css.map */
