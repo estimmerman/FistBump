@@ -1,27 +1,38 @@
 extends layout
 
 block content
-  h1 Hackathon Starter
-  p.lead A boilerplate for Node.js web applications.
-  hr
   .row
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+    h1 FISTBUMP
+  .row
+    ul.nav.nav-pills
+      li.active.category-tab(role="category", id='bro-tab')
+        a(href="#") Bro
+      li.category-tab(role="category", id='bruh-tab')
+        a(href="#") Bruh
+
+  div.text-center(id='loading-posts-spinner')
+    i.fa.fa-spinner.fa-spin(style='font-size: 60px; margin-top: 10px;')
+  div.hidden(id='posts-content')
+
+  button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(id='add-post-button')
+    i.material-icons add
+
+  div.modal.fade(id="add-post-modal", tabindex='-1', role='dialog', aria-labelledby='add-post-modal-label')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title(id='add-post-modal-label') Post a Moment
+        .modal-body(style='padding-left: 0px; padding-right: 0px;')
+          form.form-horizontal(action='/post/create', method='POST', id='add-post-form')
+            input.hidden(id='category', value='bro')
+            .col-sm-12.no-margin-left
+              label.control-label(for='content', id='add-post-content-label') How's it going dude?
+              textarea.form-control.m-top-5(id='content', name='content', required)
+
+            button.btn.btn-primary.m-top-15.m-left-15(type='submit') Post
+
+  script(type='text/javascript').
+    var user = !{JSON.stringify(user)};
+  script(src='/js/main.js')
