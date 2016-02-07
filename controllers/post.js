@@ -4,6 +4,7 @@ var passport = require('passport');
 var User = require('../models/User');
 var Post = require('../models/Post');
 var Rating = require('../models/Rating');
+var Message = require('../models/Message');
 var helpers = require('../helpers/helpers');
 
 exports.postCreatePost = function(req, res, next) {
@@ -483,6 +484,95 @@ exports.postRateSubCategory = function(req, res, next) {
 					});
 			    });
 			});
+		}
+	});
+};
+
+exports.postSendMessage = function(req, res, next) {
+	if (!req.body.post || !req.body.message) {
+		req.flash('errors', { msg: 'Can\'t find message to send.' });
+		return res.redirect('/');
+	}
+
+	Post.findById(req.body.post, function(err, post){
+		if (err) {
+			req.flash('errors', { msg: 'Can\'t find post to reply to.' });
+			return res.redirect('/');
+		}
+
+		var message = new Message({
+	      sender: req.user._id,
+	      post: req.body.post,
+	      recipient: post.user,
+	      message: req.body.message,
+	      createdAt: new Date()
+	    });
+
+	    message.save(function(error){
+	    	if (error) {
+				req.flash('errors', { msg: 'Unable to send message.' });
+				return res.redirect('/');
+			}
+
+			var response = {};
+			response = {
+			  code: 200,
+			  msg: 'Message sent!'
+			}
+			return res.send(response);
+	    });
+	});
+};
+
+exports.postReadAllMessages = function(req, res, next) {
+	Message.find({ recipient: req.user.id })
+	.exec(function(err, messages){
+		var response = {};
+		if (err) {
+			response = {
+			  code: 500,
+			  msg: 'Couldn\'t retrieve messages.'
+			}
+			return res.send(response);
+		}
+
+		if (messages && messages.length > 0) {
+			var total = messages.length
+			  , result = []
+			;
+			function saveAll(){
+			  var message = messages.pop();
+			  message.unopened = false;
+			  message.save(function(err, saved){
+			    if (err) {
+					response = {
+					  code: 500,
+					  msg: 'Couldn\'t update messages.'
+					}
+					return res.send(response);
+				}
+
+			    result.push(saved[0]);
+
+			    if (--total) {
+			    	saveAll();
+			    } else {
+			    	response = {
+					  code: 200,
+					  msg: 'Messages updated.'
+					}
+					return res.send(response);
+			    }
+			  })
+			}
+
+			saveAll();
+		} else {
+			response = {
+			  code: 200,
+			  msg: 'Messages updated.'
+			}
+			return res.send(response);
 		}
 	});
 };

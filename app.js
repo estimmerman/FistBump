@@ -124,6 +124,8 @@ app.post('/post/create', passportConf.isAuthenticated, postController.postCreate
 app.get('/post/get-all/:category', passportConf.isAuthenticated, postController.getAllPosts);
 app.post('/post/rate/main', passportConf.isAuthenticated, postController.postRateMain);
 app.post('/post/rate/sub/:category', passportConf.isAuthenticated, postController.postRateSubCategory);
+app.post('/post/message', passportConf.isAuthenticated, postController.postSendMessage);
+app.post('/post/messages/read-all', passportConf.isAuthenticated, postController.postReadAllMessages);
 
 /**
  * Error Handler.
