@@ -1,37 +1,46 @@
 extends layout
 
 block content
-  .row
-    h1 FISTBUMP
-  .row
-    ul.nav.nav-pills
-      li.active.category-tab(role="category", id='bro-tab')
-        a(href="#") Bro
-      li.category-tab(role="category", id='bruh-tab')
-        a(href="#") Bruh
+  .row.title-section
+    h1.title F I S T B U M P
+      img(class='header-icon', src='/assets/fistbump-256-white.png', height='75')
 
-  div.text-center(id='loading-posts-spinner')
-    i.fa.fa-spinner.fa-spin(style='font-size: 60px; margin-top: 10px;')
-  div.hidden(id='posts-content')
+  .container
+    .row
+      ul.nav.nav-pills
+        li.active.category-tab(role="category", id='bro-tab')
+          a(href="#") B R O
+        li.category-tab(role="category", id='bruh-tab')
+          a(href="#") B R U H
 
-  button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(id='add-post-button')
-    i.material-icons add
+    div.text-center(id='loading-posts-spinner')
+      i.fa.fa-spinner.fa-spin(id='post-spinner' style='font-size: 60px; margin-top: 10px;')
+    div.hidden(id='posts-content')
 
-  div.modal.fade(id="add-post-modal", tabindex='-1', role='dialog', aria-labelledby='add-post-modal-label')
-    .modal-dialog(role='document')
-      .modal-content
-        .modal-header
-          button.close(data-dismiss='modal', aria-label='Close')
-            span(aria-hidden='true') &times;
-          h4.modal-title(id='add-post-modal-label') Post a Moment
-        .modal-body(style='padding-left: 0px; padding-right: 0px;')
+    button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(id='add-post-button')
+      i.material-icons add
+
+    div.btn-group(id='sorting-buttons' role='group')
+      button.btn.btn-default.active(id='sort-rating-button' type='button')
+        i.fa.fa-users
+      button.btn.btn-default(id='sort-date-button' type='button')
+        i.fa.fa-calendar
+
+    div.modal.fade(id="add-post-modal", tabindex='-1', role='dialog', aria-labelledby='add-post-modal-label')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true' style='font-size: 25px;') &times;
+            h4.modal-title(id='add-post-modal-label') Post a Moment
           form.form-horizontal(action='/post/create', method='POST', id='add-post-form')
-            input.hidden(id='category', value='bro')
-            .col-sm-12.no-margin-left
-              label.control-label(for='content', id='add-post-content-label') How's it going dude?
-              textarea.form-control.m-top-5(id='content', name='content', required)
-
-            button.btn.btn-primary.m-top-15.m-left-15(type='submit') Post
+            .modal-body(style='padding-left: 0px; padding-right: 0px;')
+                input.hidden(id='category', value='bro')
+                .col-sm-12.no-margin-left
+                  label.control-label(for='content', id='add-post-content-label') How's it going dude?
+                  textarea.form-control.m-top-5(id='content', name='content', rows='4', required)
+            .modal-footer(style='border-top: none')
+                button.pull-right.btn.btn-primary.m-top-15.m-left-15(id='post-submit-button' type='submit') Post
 
   script(type='text/javascript').
     var user = !{JSON.stringify(user)};
