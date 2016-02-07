@@ -1,8 +1,8 @@
 $(document).ready(function() {
-
 	var activeTab = 'Bro';
 	var category = $('#category');
 	var content = $('#content');
+	var contentLength = $('#contentLength');
 	var broTab = $('#bro-tab');
 	var bruhTab = $('#bruh-tab');
 
@@ -24,12 +24,36 @@ $(document).ready(function() {
 		});
 	}
 
+	// populate messages table
+	var messagesTable = $('#messages-table');
+	var messagesTableList = $('#messages-table-list');
+
+	var messagesModal = $('#messages-modal');
+	var messagesNum = $('#messages-num');
+
+	var messagesButton = $('#messages-button');
+	messagesButton.on('click', function(){
+		$.post('/post/messages/read-all')
+		.done(function(result){
+			if (result.code === 200) {
+				messagesNum.text('0');
+			}
+		});
+		messagesModal.modal('show');
+	});
+
 	var addPostButton = $('#add-post-button');
 	var addPostModal = $('#add-post-modal');
 	var addPostModalLabel = $('#add-post-modal-label');
 	var addPostContentLabel = $('#add-post-content-label');
-
 	var addPostForm = $('#add-post-form');
+
+	var connectToBroModal = $('#connect-to-bro-modal');
+	var connectToBroForm = $('#connect-to-bro-form');
+	var connectToBroModalLabel = $('#connect-to-bro-modal-label');
+	var messagePostId = $('#message-post-id');
+	var message = $('#message');
+	var messageLength = $('#messageLength');
 
 	var hideSpinner = function() {
 		loadingPostsSpinner.addClass('hidden');
@@ -218,7 +242,8 @@ $(document).ready(function() {
 		}
 		content += 
 			'<div class="post bro-post">' +
-				'<p class="post-content">' + post.content.trim() + '</p>' +
+				'<p class="post-content">' + post.content.trim() +
+				'<button class="btn btn-default btn-sm connect-bro-button" data-id="' + post._id + '" data-category="' + post.category + '">Bro to Bro</button></p>' +
 				'<div class="col-sm-12 no-padding post-footer"><b class="post-footer-label">How to celebrate?</b>' +
 					'<b class="pull-right post-timestamp">' + timeStamp + '</b>' +
 					'<div class="col-sm-12 no-padding post-footer-options-list">' +
@@ -273,7 +298,8 @@ $(document).ready(function() {
 		}
 		content += 
 			'<div class="post bruh-post">' +
-				'<p class="post-content">' + post.content.trim() + '</p>' +
+				'<p class="post-content">' + post.content.trim() +
+				'<button class="btn btn-default btn-sm connect-bro-button" data-id="' + post._id + '" data-category="' + post.category + '">Bro to Bruh</button></p>' +
 				'<div class="col-sm-12 no-padding post-footer"><b class="post-footer-label">The solution?</b>' +
 					'<b class="pull-right post-timestamp">' + timeStamp + '</b>' +
 					'<div class="col-sm-12 no-padding post-footer-options-list">' +
@@ -417,6 +443,21 @@ $(document).ready(function() {
 				}
 			});
 		});
+
+		post.find('.connect-bro-button').on('click', function(){
+			var postId = $(this).data('id');
+			var category = $(this).data('category');
+			messagePostId.val(postId);
+			messageLength.text('0 / 200');
+
+			if (activeTab == 'Bro') {
+				connectToBroModalLabel.text('Send a Message, Bro to Bro');
+			} else {
+				connectToBroModalLabel.text('Send a Message, Bro to Bruh');
+			}
+
+			connectToBroModal.modal('show');
+		});
 	}
 
 	var reinitMainRatingIcons = function() {
@@ -524,7 +565,38 @@ $(document).ready(function() {
 				}
 			});
 		});
+
+		$('.connect-bro-button').on('click', function(){
+			var postId = $(this).data('id');
+			var category = $(this).data('category');
+			messagePostId.val(postId);
+			messageLength.text('0 / 200');
+
+			if (activeTab == 'Bro') {
+				connectToBroModalLabel.text('Send a Message, Bro to Bro');
+			} else {
+				connectToBroModalLabel.text('Send a Message, Bro to Bruh');
+			}
+
+			connectToBroModal.modal('show');
+		});
 	}
+
+	var unopenedMessages = 0;
+	for (var i = 0; i < messages.length; i ++){
+		var singleMessage = messages[i];
+		if (singleMessage.unopened) unopenedMessages += 1;
+
+		var messageContent =
+		'<tr>' + 
+			'<th>' + singleMessage.post.category.substr(0,1).toUpperCase() + singleMessage.post.category.substring(1) + ': ' + singleMessage.post.content + '</th>' +
+			'<th>' + singleMessage.message + '</th>' +
+			'<th>' + getFormattedDate(singleMessage.createdAt) + '</th>' +
+		'</tr>'
+
+		messagesTableList.append(messageContent);
+	}
+	messagesNum.text(unopenedMessages);
 
 	sortDateButton.on('click', function() {
 		if (activeSort != 'date') {
@@ -578,7 +650,7 @@ $(document).ready(function() {
 	addPostButton.on('click', function() {
 		addPostModalLabel.text('Post a ' + activeTab);
 		addPostContentLabel.text('How\'s it going, ' + activeTab.toLowerCase() + "?");
-
+		contentLength.text('0 / 200');
 		addPostModal.modal('show');
 	});
 	
@@ -586,13 +658,50 @@ $(document).ready(function() {
 		e.preventDefault();
 		$.post('/post/create', { category: category.val(), content: content.val().trim() })
 		.done(function(result){
-			content.val('');
 			addPostModal.modal('hide');
 
 			if (result.code === 200) {
 				addSinglePost(result.post);				
 			}
 		});
+	})
+
+	connectToBroForm.on('submit', function(e){
+		e.preventDefault();
+		if (message.val().trim().length > 0) {
+			$.post('/post/message', { post: messagePostId.val(), message: message.val().trim() })
+			.done(function(result){
+				connectToBroModal.modal('hide');
+			});
+		}
+	})
+
+	content.on('input propertychange', function(){
+		var length = $(this).val().length;
+		contentLength.text(length + ' / 200');
+		if (length > 200) {
+			contentLength.addClass('danger');
+		} else {
+			contentLength.removeClass('danger');
+		}
+	});
+
+	message.on('input propertychange', function(){
+		var length = $(this).val().length;
+		messageLength.text(length + ' / 200');
+		if (length > 200) {
+			messageLength.addClass('danger');
+		} else {
+			messageLength.removeClass('danger');
+		}
+	});
+
+	addPostModal.on('hidden.bs.modal', function () {
+		content.val('');
+	})
+
+	connectToBroModal.on('hidden.bs.modal', function () {
+		message.val('');
 	})
 
 	// load bro posts initially

@@ -1,11 +1,28 @@
+var User = require('../models/User');
+var Post = require('../models/Post');
+var Rating = require('../models/Rating');
+var Message = require('../models/Message');
+
 /**
  * GET /
  * Home page.
  */
 exports.index = function(req, res) {
-  res.render('home', {
-    title: 'Home'
-  });
+	Message.find({ recipient: req.user.id })
+	.populate('user')
+	.populate('post')
+	.sort({ createdAt: -1 })
+	.exec(function(err, messages){
+		if (err) {
+			return res.redirect('/home');
+		}
+
+		res.render('home', {
+			title: 'Home',
+			homePage: true,
+			messages: messages
+		});
+	});
 };
 
 exports.getLandingPage = function(req, res) {
